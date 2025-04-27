@@ -1,6 +1,7 @@
 const { generateToken } = require("../config/jwt");
 const User = require("../models/userModel");
 
+// ############ User Register #############
 exports.registerUser = async (req, res) => {
     const { name, email, password, country } = req.body;
 
@@ -32,6 +33,7 @@ exports.registerUser = async (req, res) => {
     }
 };
 
+// ############ User Login #############
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -51,6 +53,7 @@ exports.loginUser = async (req, res) => {
     }
 };
 
+// ############ Get User Profile #############
 exports.getUserProfile = async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
 
