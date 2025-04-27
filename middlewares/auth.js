@@ -1,8 +1,7 @@
-const jwt = require('jsonwebtoken');
-const { verifyToken } = require('../config/jwt.js');
-const User = require('../models/User.js');
-const Project = require('../models/projectModel');
-const Task = require('../models/taskModel');
+const { verifyToken } = require("../config/jwt");
+const Project = require("../models/projectModel");
+const Task = require("../models/taskModel");
+const User = require("../models/userModel");
 
 const protect = async (req, res, next) => {
     let token;

@@ -1,25 +1,25 @@
 const { generateToken } = require("../config/jwt");
+const { APIError } = require("../middlewares/error");
 const User = require("../models/userModel");
 
 // ############ User Register #############
 exports.registerUser = async (req, res) => {
     const { name, email, password, country } = req.body;
 
-    const userExists = await User.findOne({ email });
+    try {
+        const userExists = await User.findOne({ email });
 
-    if (userExists) {
-        res.status(400);
-        throw new Error('User already exists');
-    }
+        if (userExists) {
+            throw new APIError('User already exists', 400);
+        }
 
-    const user = await User.create({
-        name,
-        email,
-        password,
-        country,
-    });
+        const user = await User.create({
+            name,
+            email,
+            password,
+            country,
+        });
 
-    if (user) {
         res.status(201).json({
             _id: user._id,
             name: user.name,
@@ -27,9 +27,8 @@ exports.registerUser = async (req, res) => {
             country: user.country,
             token: generateToken(user._id),
         });
-    } else {
-        res.status(400);
-        throw new Error('Invalid user data');
+    } catch (error) {
+        next(error);
     }
 };
 
@@ -37,30 +36,31 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    try {
+        const user = await User.findOne({ email });
 
-    if (user && (await user.matchPassword(password))) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            country: user.country,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401);
-        throw new Error('Invalid email or password');
+        if (user && (await user.matchPassword(password))) {
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                country: user.country,
+                token: generateToken(user._id),
+            });
+        } else {
+            throw new APIError('Invalid email or password', 401);
+        }
+    } catch (error) {
+        next(error);
     }
 };
 
 // ############ Get User Profile #############
 exports.getUserProfile = async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password');
-
-    if (user) {
+    try {
+        const user = await User.findById(req.user._id).select('-password');
         res.json(user);
-    } else {
-        res.status(404);
-        throw new Error('User not found');
+    } catch (error) {
+        next(error);
     }
 };
