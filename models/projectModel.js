@@ -33,7 +33,9 @@ projectSchema.pre('save', async function (next) {
   });
 
   if (userProjects >= 4) {
-    throw new Error('User can have maximum 4 projects');
+    const err = new Error('User can have maximum 4 projects');
+    err.statusCode = 400; // You can use any status code you prefer
+    return next(err);
   }
 
   next();

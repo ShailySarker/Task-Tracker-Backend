@@ -13,15 +13,9 @@ const app = express();
 
 
 // Middleware
-// app.use(cors());
-// app.use(cors({
-//     origin: "*",
-//     // origin: process.env.CLIENT_URL,
-//     credentials: true
-// }));
 app.use(
     cors({
-        origin: ['http://localhost:3000', '*'],
+        origin: [process.env.CLIENT_URL, '*'],
         credentials: true,
     })
 );
