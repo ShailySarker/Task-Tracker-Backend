@@ -1,10 +1,10 @@
-const dotenv = require ('dotenv');
-const express = require ('express');
-const cors = require ('cors');
-const cookieParser = require ('cookie-parser');
+const dotenv = require('dotenv');
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
-const database = require ('./config/db');
-const baseRoutes = require ('./routes/baseRoutes');
+const database = require('./config/db');
+const baseRoutes = require('./routes/baseRoutes');
 const { errorHandler, notFound } = require('./middlewares/error');
 
 
@@ -13,7 +13,11 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 

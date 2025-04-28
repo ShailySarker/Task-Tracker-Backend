@@ -3,7 +3,7 @@ const { APIError } = require("../middlewares/error");
 const User = require("../models/userModel");
 
 // ############ User Register #############
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
     const { name, email, password, country } = req.body;
 
     try {
@@ -33,7 +33,7 @@ exports.registerUser = async (req, res) => {
 };
 
 // ############ User Login #############
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -56,7 +56,7 @@ exports.loginUser = async (req, res) => {
 };
 
 // ############ Get User Profile #############
-exports.getUserProfile = async (req, res) => {
+exports.getUserProfile = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id).select('-password');
         res.json(user);

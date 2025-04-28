@@ -11,7 +11,7 @@ exports.getProjects = async (req, res) => {
 };
 
 // ############ Create Project #############
-exports.createProject = async (req, res) => {
+exports.createProject = async (req, res, next) => {
     const { name, description } = req.body;
 
     try {
@@ -29,10 +29,12 @@ exports.createProject = async (req, res) => {
 };
 
 // ############ Update Project #############
-exports.updateProject = async (req, res) => {
+exports.updateProject = async (req, res, next) => {
     const { name, description } = req.body;
 
     try {
+        console.log('Updating project with ID:', req.params.id); // Debug log
+
         const project = await Project.findById(req.params.id);
 
         if (!project) {
@@ -50,15 +52,14 @@ exports.updateProject = async (req, res) => {
 };
 
 // ############ Delete Project #############
-exports.deleteProject = async (req, res) => {
+exports.deleteProject = async (req, res, next) => {
     try {
-        const project = await Project.findById(req.params.id);
+        const project = await Project.findByIdAndDelete(req.params.id);
 
         if (!project) {
             throw new APIError('Project not found', 404);
         }
 
-        await project.remove();
         res.json({ message: 'Project removed' });
     } catch (error) {
         next(error);

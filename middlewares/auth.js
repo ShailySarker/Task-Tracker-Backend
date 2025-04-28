@@ -29,7 +29,7 @@ const protect = async (req, res, next) => {
 };
 
 const checkProjectOwnership = async (req, res, next) => {
-    const project = await Project.findById(req.params.projectId);
+    const project = await Project.findById(req.params.id);
 
     if (!project) {
         res.status(404);
@@ -45,7 +45,7 @@ const checkProjectOwnership = async (req, res, next) => {
 };
 
 const checkTaskOwnership = async (req, res, next) => {
-    const task = await Task.findById(req.params.taskId);
+    const task = await Task.findById(req.params.id);
 
     if (!task) {
         res.status(404);

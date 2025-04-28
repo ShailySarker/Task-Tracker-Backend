@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.use(protect);
 
-router.route('/projects/:projectId/tasks').get(checkProjectOwnership, getTasks);
-router.route('/projects/:projectId/tasks').post(checkProjectOwnership, createTask);
+router.route('/projects/:id/tasks').get(checkProjectOwnership, getTasks);
+router.route('/projects/:id/tasks').post(checkProjectOwnership, createTask);
 router.route('/:id').put(checkTaskOwnership, updateTask);
 router.route('/:id').delete(checkTaskOwnership, deleteTask);
 

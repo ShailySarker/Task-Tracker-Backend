@@ -3,9 +3,9 @@ const Task = require("../models/taskModel");
 
 
 // ########### Get Task ##########
-exports.getTasks = async (req, res) => {
+exports.getTasks = async (req, res, next) => {
     try {
-        const tasks = await Task.find({ project: req.params.projectId });
+        const tasks = await Task.find({ project: req.params.id });
         res.json(tasks);
     } catch (error) {
         next(error);
@@ -13,11 +13,11 @@ exports.getTasks = async (req, res) => {
 };
 
 // ########### Create Task ##########
-exports.createTask = async (req, res) => {
+exports.createTask = async (req, res, next) => {
     const { title, description, status, dueDate } = req.body;
 
     try {
-        const project = await Project.findById(req.params.projectId);
+        const project = await Project.findById(req.params.id);
 
         if (!project) {
             throw new APIError('Project not found', 404);
@@ -44,7 +44,7 @@ exports.createTask = async (req, res) => {
 };
 
 // ########### Update Task ##########
-exports.updateTask = async (req, res) => {
+exports.updateTask = async (req, res, next) => {
     const { title, description, status, dueDate } = req.body;
 
     try {
@@ -73,9 +73,9 @@ exports.updateTask = async (req, res) => {
 };
 
 // ########### Delete Task ##########
-exports.deleteTask = async (req, res) => {
+exports.deleteTask = async (req, res, next) => {
     try {
-        const task = await Task.findById(req.params.id);
+        const task = await Task.findByIdAndDelete(req.params.id);
 
         if (!task) {
             throw new APIError('Task not found', 404);
@@ -86,7 +86,7 @@ exports.deleteTask = async (req, res) => {
             { $pull: { tasks: task._id } }
         );
 
-        await task.remove();
+        // await task.remove();
         res.json({ message: 'Task removed' });
     } catch (error) {
         next(error);

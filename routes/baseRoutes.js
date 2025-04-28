@@ -9,9 +9,9 @@ const taskRoutes = require('./taskRoutes');
 
 
 // Define the routes under their respective paths
-router.use('/api/auth', authRoutes);
-router.use('/api/projects', projectRoutes);
-router.use('/api/tasks', taskRoutes);
+router.use('/auth', authRoutes);
+router.use('/projects', projectRoutes);
+router.use('/tasks', taskRoutes);
 
 
 module.exports = router;
