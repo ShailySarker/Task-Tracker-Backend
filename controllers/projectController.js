@@ -33,8 +33,6 @@ exports.updateProject = async (req, res, next) => {
     const { name, description } = req.body;
 
     try {
-        console.log('Updating project with ID:', req.params.id); // Debug log
-
         const project = await Project.findById(req.params.id);
 
         if (!project) {
