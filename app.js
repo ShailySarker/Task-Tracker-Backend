@@ -13,18 +13,13 @@ const app = express();
 
 
 // Middleware
-// app.use(
-// 	cors({
-// 		origin: ['http://localhost:5173', '*', 'https://quiz-master-frontend-two.vercel.app'],
-// 		credentials: true,
-// 	})
-// );
 app.use(
-    cors({
-        origin: ['*'],
-        credentials: true,
-    })
+	cors({
+		origin: ['http://localhost:3000', '*', 'https://task-tracker-website.vercel.app'],
+		credentials: true,
+	})
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
